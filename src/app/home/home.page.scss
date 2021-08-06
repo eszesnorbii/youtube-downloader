@@ -1,27 +1,67 @@
-#container {
+div.container {
+  margin: auto;
+  width: 100%;
+}
+
+div.search-and-segment-container {
+  display: flex;
+}
+
+.searchbar {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  height: 100%;
+}
+
+.page-info-labels {
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.menu-button-container {
+  width: 100%;
+  display: flex;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+.menu-button {
+  width: 100%;
+  padding-bottom: 2px;
 }
 
-#container a {
-  text-decoration: none;
+.thumbnail {
+  width: 100%;
+}
+
+.checkbox-container {
+  display: inline-block;
+  vertical-align: -webkit-baseline-middle;
+  font-kerning: none;
+}
+
+// from existing projects
+
+.card {
+  height: 100%;
+  box-shadow: none;
+  hyphens: auto;
+  background-color: transparent;
+}
+
+.object-button {
+  height: 100%;
+  text-transform: none;
+  white-space: normal;
+}
+
+.auto-margin-top-bottom {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+// / from existing projects
+
+@media (min-width: 899px) {
+  div.container {
+    width: 85%;
+  }
 }

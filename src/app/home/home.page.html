@@ -1,20 +1,130 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-title>
-      Főoldal
+      <ion-button fill="clear" color="dark" (click)="onPageReload()">
+        {{'Youtube letöltő'}}
+      </ion-button>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Főoldal</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<ion-content>
+  <div class="container">
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" sizeMd="12">
+            <ion-searchbar disabled class="searchbar" placeholder="Keress a Youtube-n" (ionChange)="onSearch($event)">
+            </ion-searchbar>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div class="results-container">
+        <app-observable-handler [classes]="'full-width ion-text-center'" [observable$]="searchResults$"
+          [dataTemplate]="searchResultsTemplate" [noDataTemplate]="noSearchResultsTemplate" [resultIsArray]="false">
+        </app-observable-handler>
+      </div>
+    </div>
   </div>
 </ion-content>
+
+<ng-template #searchResultsTemplate let-data="data">
+  <ion-grid>
+    <ion-row *ngIf="data.items?.length">
+      <ion-col class="ion-text-start" size="12" sizeSm="2">
+        <ion-button fill="clear" [disabled]="!data.prevPageToken" (click)="onPaging(data.prevPageToken, -1)">
+          <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col class="page-info-labels" *ngIf="data.pageInfo" size="12" sizeSm="8">
+        <ion-label>
+          {{data.pageInfo?.totalResults + '/' + (actualPage * data.pageInfo?.resultsPerPage)}}
+        </ion-label>
+      </ion-col>
+      <ion-col class="ion-text-end" size="12" sizeSm="2">
+        <ion-button fill="clear" [disabled]="!data.nextPageToken" (click)="onPaging(data.nextPageToken, 1)">
+          <ion-icon slot="icon-only" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12" sizeMd="8">
+        <ion-row>
+          <ion-col *ngFor="let item of data.items" size="12" sizeSm="4" sizeMd="3">
+            <!-- <ion-button class="object-button" fill="clear" expand="block"> -->
+              <ion-card class="card">
+                <ion-card-header class="ion-text-center ion-no-padding ion-padding-top ion-padding-bottom">
+                  <div class="menu-button-container">
+                    <div class="ion-no-margin ion-no-padding auto-margin-top-bottom">
+                      <ion-checkbox [id]="checkboxIdPrefix + item.id?.videoId" class="ion-activatable"
+                        (click)="onCheckboxClick(item.id?.videoId, item.snippet?.title, checkboxIdPrefix + item.id?.videoId, $event)">
+                      </ion-checkbox>
+                    </div>
+                    <div class="menu-button ion-text-end auto-margin-top-bottom">
+                      <ion-button size="small" fill="clear" (click)="openPopover($event, item)">
+                        <ion-icon slot="icon-only" name="menu"></ion-icon>
+                      </ion-button>
+                    </div>
+                  </div>
+                  <div class="ion-no-margin ion-no-padding">
+                    <img class="thumbnail auto-margin-top-bottom" [src]="item.snippet?.thumbnails?.high?.url"
+                      [alt]="item.title" />
+                  </div>
+                </ion-card-header>
+                <ion-card-header>
+                  <ion-card-title class="ion-text-center" color="primary">
+                    {{item.snippet?.title}}
+                  </ion-card-title>
+                  <ion-card-subtitle class="ion-text-center" color="primary">
+                    {{item.snippet?.publishedAt | date: 'YYYY.MM.dd hh:mm'}}
+                  </ion-card-subtitle>
+                </ion-card-header>
+              </ion-card>
+            <!-- </ion-button> -->
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col size="12" sizeMd="4">
+        <ion-list>
+          <ion-item lines="none">
+            <ion-col size="6">
+              <ion-button color="danger" fill="outline" expand="block" [disabled]="selectedVideos.size === 0"
+                (click)="clearSelectedVideos()">
+                {{'Összes törlése' + '&nbsp;'}}
+                <ion-icon name="trash"></ion-icon>
+              </ion-button>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-button fill="outline" expand="block" [disabled]="selectedVideos.size === 0"
+                (click)="downloadSelectedVideos()">
+                {{'Összes letöltése' + '&nbsp;'}}
+                <ion-icon name="arrow-down"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-item>
+
+          <ion-item *ngFor="let selectedVideo of selectedVideos">
+            <ion-col size="9">
+              <ion-label>
+                {{selectedVideo.title}}
+              </ion-label>
+            </ion-col>
+            <ion-col size="1.5">
+              <ion-button color="danger" fill="clear" (click)="removeFromSet(selectedVideo)">
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col size="1.5">
+              <ion-button fill="clear" (click)="download(selectedVideo)">
+                <ion-icon slot="icon-only" name="arrow-down"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ng-template>

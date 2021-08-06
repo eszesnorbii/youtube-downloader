@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="title ion-no-padding">{{'Részletek: ' + item.snippet?.title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="light" fill="clear" (click)="close()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-margin">
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="stacked">
+            {{'Csatorna neve: '}}
+          </ion-label>
+          <ion-row class="full-width">
+            <ion-col size="11">
+              <ion-input [value]="item.snippet?.channelTitle" readonly></ion-input>
+            </ion-col>
+            <ion-col size="1">
+              <ion-button fill="clear" (click)="openChannel(item.snippet?.channelId)">
+                <ion-icon slot="icon-only" name="open-outline"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">
+            {{'Videó címe: '}}
+          </ion-label>
+          <ion-input [value]="item.snippet?.title" readonly></ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label position="stacked">
+            {{'Videó leírása: '}}
+          </ion-label>
+          <ion-textarea [value]="item.snippet?.description" rows="3" readonly></ion-textarea>
+        </ion-item>
+
+        <div #videoPlayerContainer class="ion-margin-top ion-text-center" lines="none">
+          <iframe type="text/html" [height]="videoPlayerDimensions.height" [width]="videoPlayerDimensions.width"
+            [src]="videoPlayerUrl" frameborder="0"></iframe>
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+
+<ng-template #channelTemplate let-data="data">
+</ng-template>

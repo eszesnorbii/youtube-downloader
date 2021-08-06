@@ -1,0 +1,8 @@
+<ion-list>
+  <ion-item *ngFor="let button of buttons" lines="none">
+    <ion-button class="full-width"  fill="clear" expand="full"
+      [disabled]="button.disabled" (click)="close(button.id)">
+      <ion-label>{{button.text}}</ion-label>
+    </ion-button>
+  </ion-item>
+</ion-list>

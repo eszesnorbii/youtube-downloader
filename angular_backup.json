@@ -15,7 +15,8 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "youtube-v3-api"
+              "youtube-v3-api",
+              "ytdl-core"
             ],
             "outputPath": "www",
             "index": "src/index.html",
