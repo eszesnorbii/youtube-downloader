@@ -29,7 +29,7 @@ export class HomePage {
   ) {
     this.selectedVideos = new Set();
 
-    this.searchResults$ = of(mockedData);
+    // this.searchResults$ = of(mockedData);
     this.actualPage = 1;
   }
 
