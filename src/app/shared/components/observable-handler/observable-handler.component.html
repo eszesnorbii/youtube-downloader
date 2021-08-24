@@ -1,0 +1,29 @@
+<div [class]="classes" *ngIf="observable$ | withLoading | async as observable">
+  <ng-template [ngIf]="observable?.loading">
+    <ion-spinner></ion-spinner>
+  </ng-template>
+  <ng-template [ngIf]="observable?.error">
+    <ng-template [ngTemplateOutlet]="errorTemplate || defaultErrorTemplate"
+      [ngTemplateOutletContext]="{data: observable?.error}">
+    </ng-template>
+  </ng-template>
+  <ng-template [ngIf]="!observable.loading && !observable.error">
+    <ng-template [ngIf]="resultIsArray ? observable?.value?.length == 0 : !observable?.value">
+      <ng-template [ngTemplateOutlet]="noDataTemplate || defaultNoDataTemplate">
+      </ng-template>
+    </ng-template>
+    <ng-template [ngIf]="resultIsArray ? observable?.value?.length > 0 : observable?.value">
+      <ng-template [ngTemplateOutlet]="dataTemplate || defaultDataTemplate"
+        [ngTemplateOutletContext]="{data: observable?.value}">
+      </ng-template>
+    </ng-template>
+  </ng-template>
+</div>
+
+<ng-template #defaultDataTemplate></ng-template>
+
+<ng-template #defaultErrorTemplate let-data="data">
+  <app-error [text]="data"></app-error>
+</ng-template>
+
+<ng-template #defaultNoDataTemplate>{{'Nincs adat'}}</ng-template>

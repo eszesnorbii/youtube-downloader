@@ -1,0 +1,67 @@
+div.container {
+  margin: auto;
+  width: 100%;
+}
+
+div.search-and-segment-container {
+  display: flex;
+}
+
+.searchbar {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  height: 100%;
+}
+
+.page-info-labels {
+  text-align: center;
+}
+
+.menu-button-container {
+  width: 100%;
+  display: flex;
+}
+
+.menu-button {
+  width: 100%;
+  padding-bottom: 2px;
+}
+
+.thumbnail {
+  width: 100%;
+}
+
+.checkbox-container {
+  display: inline-block;
+  vertical-align: -webkit-baseline-middle;
+  font-kerning: none;
+}
+
+// from existing projects
+
+.card {
+  height: 100%;
+  box-shadow: none;
+  hyphens: auto;
+  background-color: transparent;
+}
+
+.object-button {
+  height: 100%;
+  text-transform: none;
+  white-space: normal;
+}
+
+.auto-margin-top-bottom {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+// / from existing projects
+
+@media (min-width: 899px) {
+  div.container {
+    width: 85%;
+  }
+}
